@@ -7,6 +7,7 @@ WORKDIR /app
 # 将当前目录下的所有文件复制到docker引擎中的工作目录
 COPY . /app
 # 安装依赖
+#RUN -m pip install --upgrade pip' command
 RUN pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 # 暴露端口
 EXPOSE 5000

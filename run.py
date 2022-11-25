@@ -56,6 +56,7 @@ def user_message():
         }
 
     resp_xml_str = xmltodict.unparse(resp_dict)
+
     return resp_xml_str
 
 

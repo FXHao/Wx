@@ -31,6 +31,7 @@ def wechat():
     # 加密
     if hashlib.sha1(temp.encode("UTF-8")).hexdigest() != signature:
         flask.abort(400)
+    user_message()
 
 
 def user_message():

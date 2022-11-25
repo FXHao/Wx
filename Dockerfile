@@ -5,7 +5,7 @@ MAINTAINER Aasee<fxhaoo@163.com>
 # 设置工作目录
 WORKDIR /app
 # 将当前目录下的所有文件复制到docker引擎中的工作目录
-COPY ./ /app/
+COPY ./ /app
 
 USER root
 # 安装依赖

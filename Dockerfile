@@ -3,12 +3,15 @@ FROM tiangolo/uwsgi-nginx-flask:python3.6
 # 设置作者信息
 MAINTAINER Aasee<fxhaoo@163.com>
 # 设置工作目录
-WORKDIR /app/
+WORKDIR /app
 # 将当前目录下的所有文件复制到docker引擎中的工作目录
-COPY . /app/
+COPY ./ /app/
+
+USER root
 # 安装依赖
 RUN /usr/local/bin/python -m pip install --upgrade pip
 RUN pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+
 # 暴露端口
 EXPOSE 80
 # 执行我们的脚本文件

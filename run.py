@@ -19,7 +19,7 @@ def wechat():
     timestamp = request.args.get('timestamp')
     nonce = request.args.get('nonce')
     echostr = request.args.get('echostr')
-
+    print('11111')
     # 先校验是否齐全
     if not all([signature, timestamp, nonce]):
         flask.abort(400)
@@ -28,10 +28,12 @@ def wechat():
     temp = [timestamp, nonce, token]
     temp.sort()
     temp = ''.join(temp)
+    print('2222')
     # 加密
     if hashlib.sha1(temp.encode("UTF-8")).hexdigest() != signature:
         flask.abort(400)
-    user_message()
+    if request.method == 'POST':
+        user_message()
 
 
 def user_message():
@@ -55,10 +57,9 @@ def user_message():
                 "Content": xml_dict.get("Content")
             }
         }
+        resp_xml_str = xmltodict.unparse(resp_dict)
 
-    resp_xml_str = xmltodict.unparse(resp_dict)
-
-    return resp_xml_str
+        return resp_xml_str
 
 
 if __name__ == '__main__':

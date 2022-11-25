@@ -5,7 +5,7 @@ MAINTAINER Aasee<fxhaoo@163.com>
 # 设置工作目录
 WORKDIR /app/
 # 将当前目录下的所有文件复制到docker引擎中的工作目录
-COPY /app /app/
+COPY . /app/
 # 安装依赖
 RUN /usr/local/bin/python -m pip install --upgrade pip
 RUN pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple

@@ -22,7 +22,7 @@ def wechat():
     temp.sort()
     temp = ''.join(temp)
     # 加密
-    if hashlib.sha1(temp).hexdigest() == signature:
+    if hashlib.sha1(temp.encode("UTF-8")).hexdigest() == signature:
         return make_response(echostr)
     else:
         return 'error', 403

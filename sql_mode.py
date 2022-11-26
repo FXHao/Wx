@@ -144,8 +144,8 @@ def select_gruop(group):
     return user_list
 
 
-if __name__ == '__main__':
-    select_user(1112)
+# if __name__ == '__main__':
+#     select_user(1112)
     # init_db()
     # print(insert_user('fxhao3', '广州', 'M78', '3'))
     # print(select_gruop('M78星云'))

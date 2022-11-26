@@ -1,3 +1,4 @@
+import logging
 import os
 
 import flask
@@ -10,28 +11,29 @@ import json
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def wechat():
-    # 设置token
-    token = 'Fxhaoo'
-    # 获取参数
-    signature = request.args.get('signature')
-    timestamp = request.args.get('timestamp')
-    nonce = request.args.get('nonce')
-    echostr = request.args.get('echostr')
-    print('11111')
-    # 先校验是否齐全
-    if not all([signature, timestamp, nonce]):
-        flask.abort(400)
+    if request.method == 'GET':
+        # 设置token
+        token = 'Fxhaoo'
+        # 获取参数
+        signature = request.args.get('signature')
+        timestamp = request.args.get('timestamp')
+        nonce = request.args.get('nonce')
+        echostr = request.args.get('echostr')
+        # 先校验是否齐全
+        if not all([signature, timestamp, nonce]):
+            flask.abort(400)
 
-    # 对参数进行字典排序，拼接字符串
-    temp = [timestamp, nonce, token]
-    temp.sort()
-    temp = ''.join(temp)
-    print('2222')
-    # 加密
-    if hashlib.sha1(temp.encode("UTF-8")).hexdigest() != signature:
-        flask.abort(400)
+        # 对参数进行字典排序，拼接字符串
+        temp = [timestamp, nonce, token]
+        temp.sort()
+        temp = ''.join(temp)
+        # 加密
+        if hashlib.sha1(temp.encode("UTF-8")).hexdigest() == signature:
+            return make_response(echostr)
+        else:
+            return make_response("认证失败")
     if request.method == 'POST':
         user_message()
 
@@ -43,7 +45,6 @@ def user_message():
 
     # 解析消息
     xml_dict = xmltodict.parse(xml_str).get("xml")
-    print(xml_dict)
 
     # 提取消息
     msg_type = xml_dict.get("MsgType")
@@ -59,7 +60,7 @@ def user_message():
         }
         resp_xml_str = xmltodict.unparse(resp_dict)
 
-        return resp_xml_str
+        return make_response(resp_xml_str)
 
 
 if __name__ == '__main__':

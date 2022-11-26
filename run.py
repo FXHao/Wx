@@ -53,8 +53,7 @@ def receive_msg():
     openid = request.args.get('openid')
     if msg_type == "text":
         res = reg_msg(content, openid)
-        send_textContent(tuser, fuser, res)
-    return make_response("OK")
+        return send_textContent(tuser, fuser, res)
 
 
 def send_textContent(tuser, fuser, content):
@@ -68,7 +67,7 @@ def send_textContent(tuser, fuser, content):
         }
     }
     resp_xml_str = xmltodict.unparse(resp_dict)
-    return make_response(resp_xml_str)
+    return resp_xml_str
 
 
 

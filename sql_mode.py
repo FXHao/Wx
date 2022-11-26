@@ -43,6 +43,7 @@ def drop_db():
 def insert_user(name, city, gruop, openid):
     """
     注册用户
+    :param openid:
     :param name:昵称
     :param city:城市
     :param gruop:分组

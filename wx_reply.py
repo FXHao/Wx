@@ -35,9 +35,9 @@ class Wx_Reply(Wx_Mysql):
 from sql_mode import *
 
 
-def reg_msg(text, openid):
+def reg_msg(content, openid):
     # 注册 昵称 城市 群组
-    ret = re.split('[+=.]', text)
+    ret = re.split('[+=.]', content)
     for i in range(len(ret)):
         if ret[i] == "":
             ret[i] = None
@@ -60,5 +60,5 @@ def reg_msg(text, openid):
         return res
 
 
-if __name__ == '__main__':
-    msg = " 1  + fxhao+广州+M78星云"
+# if __name__ == '__main__':
+#     msg = " 1  + fxhao+广州+M78星云"

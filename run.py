@@ -11,6 +11,8 @@ import json
 from wx_reply import *
 wx_reply = Wx_Reply()
 
+from sql_mode import *
+
 app = Flask(__name__)
 
 
@@ -47,8 +49,13 @@ def receive_msg():
     xml_dict = xmltodict.parse(xml_str).get("xml")
     # 提取消息
     msg_type = xml_dict.get("MsgType")
+    content = xml_dict.get("Content")
+    tuser = xml_dict.get("ToUserName")
+    fuser = xml_dict.get("FromUserName")
+    openid = request.args.get('openid')
     if msg_type == "text":
-        reg_msg()
+        res = reg_msg(content, openid)
+        send_textContent(tuser, fuser, res)
 
 
 def send_textContent(tuser, fuser, content):
@@ -68,4 +75,5 @@ def send_textContent(tuser, fuser, content):
 
 
 if __name__ == '__main__':
+    init_db()
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 80)))

@@ -54,6 +54,7 @@ def receive_msg():
     if msg_type == "text":
         res = reg_msg(content, openid)
         send_textContent(tuser, fuser, res)
+    return make_response("OK")
 
 
 def send_textContent(tuser, fuser, content):

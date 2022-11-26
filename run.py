@@ -59,8 +59,8 @@ def receive_msg():
 def send_textContent(tuser, fuser, content):
     resp_dict = {
         "xml": {
-            "ToUserName": tuser,
-            "FromUserName": fuser,
+            "ToUserName": fuser,
+            "FromUserName": tuser,
             "CreateTime": int(time.time()),
             "MsgType": "text",
             "Content": content

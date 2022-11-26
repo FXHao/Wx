@@ -1,19 +1,13 @@
-from .wx_sql import Wx_Mysql
+from wx_sql import *
 import re
 from decimal import *
-
-from flask import Flask
-from flask import request
-import hashlib
-
-app = Flask(__name__)
 
 
 class Wx_Reply(Wx_Mysql):
 
-    def get_user_input(self, name, s):
+    def get_user_input(self, name, msg):
         wx_mysql = Wx_Mysql()
-        ret = re.match(r"([\u4E00-\u9FA5A-Za-z0-9_]+)\s*[+\-=]*\s*(\d*.?\d*)", s)
+        ret = re.match(r"([\u4E00-\u9FA5A-Za-z0-9_]+)\s*[+\-=]*\s*(\d*.?\d*)", msg)
         if ret:
             price_info, price = ret.groups()
             if (price and price_info) != "":
@@ -38,33 +32,33 @@ class Wx_Reply(Wx_Mysql):
             user_info["{}".format(user)] = [price, difference]
 
 
-@app.route('/wechat')
-def wechat():
-    signature = request.args.get("signature", "")
-    timestamp = request.args.get("timestamp", "")
-    nonce = request.args.get("nonce", "")
-    echostr = request.args.get("echostr", "")
-    print(signature, timestamp, nonce, echostr)
+from sql_mode import *
 
-    token = "fxhaoo"
 
-    # 2、 进行字典排序
-    data = [token, timestamp, nonce]
-    data.sort()
-
-    # 3、三个参数拼接成一个字符串并进行sha1加密
-    temp = ''.join(data)
-    sha1 = hashlib.sha1(temp.encode('utf-8'))
-    hashcode = sha1.hexdigest()
-    print(hashcode)
-
-    # 4、对比获取到的signature与根据上面token生成的hashcode，如果一致，则返回echostr，对接成功
-    if hashcode == signature:
-        return echostr
-    else:
-        return "error"
+def reg_msg(text, openid):
+    # 注册 昵称 城市 群组
+    ret = re.split('[+=.]', text)
+    for i in range(len(ret)):
+        if ret[i] == "":
+            ret[i] = None
+        ret[i] = ret[i].strip()
+    tag = ret[0]
+    name = ret[1]
+    city = ret[2]
+    gruop = ret[3]
+    if name == '':
+        return "昵称不可为空"
+    if city == '':
+        return "城市不可为空"
+    if gruop == '':
+        return "分组不可为空"
+    if tag == '注册':
+        res = insert_user(name=name, city=city, gruop=gruop, openid=openid)
+        return res
+    if tag == '更新':
+        res = update_user(name, city=city, gruop=gruop, openid=openid)
+        return res
 
 
 if __name__ == '__main__':
-    # record("测试2", "房租+3508")
-    wx = Wx_Mysql()
+    msg = " 1  + fxhao+广州+M78星云"

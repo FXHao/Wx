@@ -4,7 +4,7 @@ from decimal import *
 from pymysql import *
 from pymysql.cursors import DictCursor
 
-from .config import *
+from config import *
 
 
 class Wx_Mysql(object):

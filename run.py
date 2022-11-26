@@ -1,4 +1,3 @@
-import logging
 import os
 
 import flask
@@ -6,10 +5,9 @@ from flask import Flask, request, make_response
 import hashlib
 import xmltodict
 import time
-import json
 
 from wx_reply import *
-wx_reply = Wx_Reply()
+# wx_reply = Wx_Reply()
 
 from sql_mode import *
 

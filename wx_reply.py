@@ -38,28 +38,25 @@ from sql_mode import *
 def reg_msg(content, openid):
     # 注册 昵称 城市 群组
     ret = re.split('[+=.]', content)
-    for i in range(len(ret)):
-        if ret[i] == "":
-            ret[i] = None
-        ret[i] = ret[i].strip()
-    tag = ret[0]
-    name = ret[1]
-    city = ret[2]
-    gruop = ret[3]
-    if name == '':
-        return "昵称不可为空"
-    if city == '':
-        return "城市不可为空"
-    if gruop == '':
-        return "分组不可为空"
-    if tag == '注册':
-        res = insert_user(name=name, city=city, gruop=gruop, openid=openid)
-        return res
-    if tag == '更新':
-        res = update_user(name, city=city, gruop=gruop, openid=openid)
-        return res
+    if len(ret) > 3:
+        for i in range(len(ret)):
+            ret[i] = ret[i].strip()
+        if ret[1] == '':
+            return "昵称不可为空"
+        if ret[2] == '':
+            return "城市不可为空"
+        if ret[3] == '':
+            return "分组不可为空"
+        if ret[0] == '注册':
+            res = insert_user(name=ret[1], city=ret[2], gruop=ret[3], openid=openid)
+            return res
+        if ret[0] == '更新':
+            res = update_user(name=ret[1], city=ret[2], gruop=ret[3], openid=openid)
+            return res
+        return content
     return content
 
 
-# if __name__ == '__main__':
-#     msg = " 1  + fxhao+广州+M78星云"
+if __name__ == '__main__':
+    msg = "更新+fxhaoo+广州+123"
+    print(reg_msg(msg, '111'))

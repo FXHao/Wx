@@ -35,32 +35,53 @@ def wechat():
         else:
             return make_response("认证失败")
     if request.method == 'POST':
-        user_message()
+        xml_str = request.data
+        if not xml_str:
+            flask.abort(400)
 
+        # 解析消息
+        xml_dict = xmltodict.parse(xml_str).get("xml")
 
-def user_message():
-    xml_str = request.data
-    if not xml_str:
-        flask.abort(400)
-
-    # 解析消息
-    xml_dict = xmltodict.parse(xml_str).get("xml")
-
-    # 提取消息
-    msg_type = xml_dict.get("MsgType")
-    if msg_type == "text":
-        resp_dict = {
-            "xml": {
-                "ToUserName": xml_dict.get("FromUserName"),
-                "FromUserName": xml_dict.get("ToUserName"),
-                "CreateTime": int(time.time()),
-                "MsgType": "text",
-                "Content": xml_dict.get("Content")
+        # 提取消息
+        msg_type = xml_dict.get("MsgType")
+        if msg_type == "text":
+            resp_dict = {
+                "xml": {
+                    "ToUserName": xml_dict.get("FromUserName"),
+                    "FromUserName": xml_dict.get("ToUserName"),
+                    "CreateTime": int(time.time()),
+                    "MsgType": "text",
+                    "Content": xml_dict.get("Content")
+                }
             }
-        }
-        resp_xml_str = xmltodict.unparse(resp_dict)
+            resp_xml_str = xmltodict.unparse(resp_dict)
 
-        return make_response(resp_xml_str)
+            return make_response(resp_xml_str)
+
+
+# def user_message():
+#     xml_str = request.data
+#     if not xml_str:
+#         flask.abort(400)
+#
+#     # 解析消息
+#     xml_dict = xmltodict.parse(xml_str).get("xml")
+#
+#     # 提取消息
+#     msg_type = xml_dict.get("MsgType")
+#     if msg_type == "text":
+#         resp_dict = {
+#             "xml": {
+#                 "ToUserName": xml_dict.get("FromUserName"),
+#                 "FromUserName": xml_dict.get("ToUserName"),
+#                 "CreateTime": int(time.time()),
+#                 "MsgType": "text",
+#                 "Content": xml_dict.get("Content")
+#             }
+#         }
+#         resp_xml_str = xmltodict.unparse(resp_dict)
+#
+#         return make_response(resp_xml_str)
 
 
 if __name__ == '__main__':

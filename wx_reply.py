@@ -57,6 +57,6 @@ def reg_msg(content, openid):
     return content
 
 
-if __name__ == '__main__':
-    msg = "更新+fxhaoo+广州+123"
-    print(reg_msg(msg, '111'))
+# if __name__ == '__main__':
+#     msg = "更新+fxhaoo+广州+123"
+#     print(reg_msg(msg, '111'))

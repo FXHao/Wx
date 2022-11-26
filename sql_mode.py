@@ -6,7 +6,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DECIMAL, DATETIME, Boolean
 from sqlalchemy import exists, create_engine, func
 
-config = "mysql+pymysql://root:HAOhao123@localhost:3306/wx_data"
+# 正式
+config = "mysql+pymysql://fxhaoo:HAOhao123@10.2.100.220:3306/wx_data"
+# 测试
+# config = "mysql+pymysql://root:HAOhao123@localhost:3306/wx_data"
+
 engine = create_engine(config)
 Base = declarative_base(engine)
 session = sessionmaker(engine)()

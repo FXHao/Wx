@@ -58,6 +58,7 @@ def reg_msg(content, openid):
     if tag == '更新':
         res = update_user(name, city=city, gruop=gruop, openid=openid)
         return res
+    return content
 
 
 # if __name__ == '__main__':

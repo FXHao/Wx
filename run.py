@@ -52,7 +52,7 @@ def receive_msg():
     fuser = xml_dict.get("FromUserName")
     openid = request.args.get('openid')
     if msg_type == "text":
-        res = reg_msg(content, openid)
+        res = content_handle(content, openid)
         return send_textContent(tuser, fuser, res)
 
 
@@ -74,4 +74,5 @@ def send_textContent(tuser, fuser, content):
 
 if __name__ == '__main__':
     # init_db()
+    # drop_db()
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get("PORT", 80)))

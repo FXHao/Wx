@@ -54,9 +54,37 @@ def reg_msg(content, openid):
             res = update_user(name=ret[1], city=ret[2], gruop=ret[3], openid=openid)
             return res
         return content
-    return content
+    if content.strip() == '查询':
+        return this_month_cost(openid)
 
 
-# if __name__ == '__main__':
-#     msg = "更新+fxhaoo+广州+123"
-#     print(reg_msg(msg, '111'))
+def query(content, openid):
+    if content.strip() == '查询':
+        return this_month_cost(openid)
+
+
+def insert_(content, openid):
+    ret = re.match(r"([\u4E00-\u9FA5A-Za-z0-9_]+)\s*[+\-=]*\s*(\d*.?\d*)", content)
+    print(ret)
+    if ret:
+        price_info, price = ret.groups()
+        print(price, price_info)
+        if (price and price_info) != "":
+            group = select_user(openid)
+            print(group)
+            if group is None:
+                return "尚未注册，请用【注册+昵称+城市+群组】进行注册~"
+            group = group[2]
+            return insert_cost(openid, group, price, price_info)
+
+
+def content_handle(content, openid):
+    reg_msg(content, openid)
+    query(content, openid)
+    insert_(content, openid)
+
+
+
+if __name__ == '__main__':
+    msg = "薯片+123"
+    print(insert_(msg, '1'))
